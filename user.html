@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Пользователь</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="app" v-cloak>
+      <user-form
+        v-if="isLoaded"
+        :user="user"
+        @change-value="changeValue">
+      </user-form>
+      <p v-else>Loading...</p>
+    </div>
+
+    <template id="user-form">
+      <form action="#">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            :value="user.name"
+            @input=inputHandler($event)>
+        </div>
+        <div class="form-group">
+          <label for="surname">Surname</label>
+          <input
+            id="surname"
+            name="surname"
+            :value="user.surname"
+            @input=inputHandler($event)>
+        </div>
+        <div class="form-group">
+          <label for="patronymic">Patronymic</label>
+          <input
+            id="patronymic"
+            name="patronymic"
+            :value="user.patronymic"
+            @input=inputHandler($event)>
+        </div>
+      </form>
+    </template>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+  <script>
+    const UserForm = {
+      template: `#user-form`,
+      props: {
+        user: {
+          type: Object,
+          required: true,
+        }
+      },
+      methods: {
+        inputHandler: function(evt) {
+          const inputEl = evt.target;
+          this.$emit('change-value', {
+            type: inputEl.name,
+            value: inputEl.value
+          })
+        }
+      }
+    };
+
+    const App = new Vue({
+      el: `#app`,
+      components: {
+        'user-form': UserForm,
+      },
+      data: function() {
+        return {
+          user: {},
+          isLoaded: false,
+        }
+      },
+      methods: {
+        'changeValue': function({type, value}) {
+          this.user[type] = value;
+        }
+      },
+      mounted: function() {
+        this.isLoaded = true;
+        this.user = {
+          id: 2,
+          name: 'Имя 2',
+          surname: 'Фамилия 2',
+          patronymic: 'Отчество 2',
+          img: 'https://avatars3.githubusercontent.com/u/1060?s=30&v=4'
+        };
+        console.log('Данные пользователя загружены');
+      }
+    });
+  </script>
+</body>
+</html>

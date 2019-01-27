@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Пользователи</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="app" v-cloak>
+      <users-table
+        :users="users"
+        @user_delete="userDelete"></users-table>
+    </div>
+  </div>
+
+  <template id="users-table">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Avatar</th>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Patronymic</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user of users">
+          <td>{{ user.id }}</td>
+          <td><img :src="getUserAvatar(user.img)" alt="" width="30" height="30"></td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.surname }}</td>
+          <td>{{ user.patronymic }}</td>
+          <td>
+            <button class="btn btn-success">...</button>
+          </td>
+          <td>
+            <button class="btn btn-danger" @click="user_delete(user.id)">X</button>
+          </td>
+        </tr>
+        
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">Всего пользователей: {{ usersLength }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </template>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+  <script>
+    const DEFAULT_AVATAR = 'http://www.forum.vwclub.ua/images/avatars/no_avatar1.gif';
+
+    const UsersTable = {
+      name: `users-table`,
+      template: `#users-table`,
+      props: {
+        users: {
+          type: Array,
+          default: [],
+        }
+      },
+      computed: {
+        usersLength: function() {
+          return this.users.length;
+        }
+      },
+      methods: {
+        getUserAvatar: function(img) {
+          return img || DEFAULT_AVATAR;
+        },
+        'user_delete': function(id) {
+          this.$emit(`user_delete`, id);
+        }
+      },
+    };
+
+    const App = new Vue({
+      el: `#app`,
+      components: {
+        'users-table': UsersTable,
+      },
+      data: function() {
+        return {
+          users: []
+        }
+      },
+      methods: {
+        userDelete: function(id) {
+          this.users = this.users.filter(user => user.id !== id)
+        }
+      },
+      mounted: function() {
+        this.users = [
+          {
+            id: 1,
+            name: 'Имя 1',
+            surname: 'Фамилия 1',
+            patronymic: 'Отчество 1',
+            img: ''
+          },
+          {
+            id: 2,
+            name: 'Имя 2',
+            surname: 'Фамилия 2',
+            patronymic: 'Отчество 2',
+            img: 'https://avatars3.githubusercontent.com/u/1060?s=30&v=4'
+          },
+          {
+            id: 3,
+            name: 'Имя 3',
+            surname: 'Фамилия 3',
+            patronymic: 'Отчество 3',
+            img: 'https://avatars1.githubusercontent.com/u/463230?s=30&v=4'
+          },
+          {
+            id: 4,
+            name: 'Имя 4',
+            surname: 'Фамилия 4',
+            patronymic: 'Отчество 4',
+            img: 'https://avatars0.githubusercontent.com/u/8784712?s=30&v=4'
+          },
+          {
+            id: 5,
+            name: 'Имя 5',
+            surname: 'Фамилия 5',
+            patronymic: 'Отчество 5',
+            img: 'https://avatars1.githubusercontent.com/u/1889710?s=30&v=4'
+          }
+        ];
+
+        console.log(`Пользователи загружены!`)
+      },
+    });
+  </script>
+</body>
+</html>
