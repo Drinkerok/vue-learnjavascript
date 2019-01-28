@@ -13,12 +13,13 @@
 <body>
   <div class="container">
     <div id="app" v-cloak>
+      <a href="index.html"> &larr; Back</a>
       <user-form
         v-if="isLoaded"
         :user="user"
         @change-value="changeValue">
       </user-form>
-      <p v-else>Loading...</p>
+      <p v-else>{{getStatusMessage()}}</p>
     </div>
 
     <template id="user-form">
@@ -88,18 +89,28 @@
       methods: {
         'changeValue': function({type, value}) {
           this.user[type] = value;
+        },
+        getStatusMessage: function() {
+          if (!this.isLoaded) {
+            return `Loading...`;
+          }
         }
       },
       mounted: function() {
-        this.isLoaded = true;
-        this.user = {
-          id: 2,
-          name: 'Имя 2',
-          surname: 'Фамилия 2',
-          patronymic: 'Отчество 2',
-          img: 'https://avatars3.githubusercontent.com/u/1060?s=30&v=4'
-        };
-        console.log('Данные пользователя загружены');
+        const id = window.location.hash.slice(1);
+        fetch(`http://localhost:3000/users/${id}`)
+          .then(response => {
+            if (response.ok) {
+              return response;
+            }
+            throw new Error(`${response.status}: ${response.statusText}`);
+          })
+          .then(response => response.json())
+          .then(data => {
+            this.user = data;
+            this.isLoaded = true;
+          });
+        console.log(`Данные пользователя загружены`);
       }
     });
   </script>
