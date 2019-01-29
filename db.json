@@ -1,39 +1,19 @@
 {
-  "users": [
+  "posts": [
     {
       "id": 1,
-      "name": "Имя 1",
-      "surname": "Фамилия 1",
-      "patronymic": "Отчество 1",
-      "img": ""
-    },
-    {
-      "id": 2,
-      "name": "Имя 2",
-      "surname": "Фамилия 2",
-      "patronymic": "Отчество 2",
-      "img": "https://avatars3.githubusercontent.com/u/1060?s=30&v=4"
-    },
-    {
-      "id": 3,
-      "name": "Имя 3",
-      "surname": "Фамилия 3",
-      "patronymic": "Отчество 3",
-      "img": "https://avatars1.githubusercontent.com/u/463230?s=30&v=4"
-    },
-    {
-      "id": 4,
-      "name": "Имя 4",
-      "surname": "Фамилия 4",
-      "patronymic": "Отчество 4",
-      "img": "https://avatars0.githubusercontent.com/u/8784712?s=30&v=4"
-    },
-    {
-      "id": 5,
-      "name": "Имя 5",
-      "surname": "Фамилия 5",
-      "patronymic": "Отчество 5",
-      "img": "https://avatars1.githubusercontent.com/u/1889710?s=30&v=4"
+      "title": "json-server",
+      "author": "typicode"
     }
-  ]
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
 }

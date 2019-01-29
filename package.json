@@ -1,22 +1,39 @@
 {
   "name": "vue-learnjavascript",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Drinkerok/vue-learnjavascript.git"
+  "dependencies": {
+    "bootstrap": "^4.2.1",
+    "vue": "^2.5.21",
+    "vue-router": "^3.0.1"
   },
-  "author": "Drinker0k",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Drinkerok/vue-learnjavascript/issues"
-  },
-  "homepage": "https://github.com/Drinkerok/vue-learnjavascript#readme",
   "devDependencies": {
-    "json-server": "^0.14.2"
+    "@vue/cli-plugin-babel": "^3.3.0",
+    "@vue/cli-plugin-eslint": "^3.3.0",
+    "@vue/cli-service": "^3.3.0",
+    "@vue/eslint-config-prettier": "^4.0.1",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "lint-staged": "^8.1.0",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   }
 }
