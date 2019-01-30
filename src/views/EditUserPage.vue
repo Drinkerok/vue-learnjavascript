@@ -1,34 +1,19 @@
 <template>
   <div>
     <p v-if="!isLoaded">Loading...</p>
-    <form v-else action="#">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input
-          id="name"
-          name="name"
-          :value="user.firstName"
-          @input="inputHandler($event)"
-        />
-      </div>
-      <div class="form-group">
-        <label for="surname">Surname</label>
-        <input
-          id="surname"
-          name="surname"
-          :value="user.lastName"
-          @input="inputHandler($event)"
-        />
-      </div>
-    </form>
+    <user-form v-else :user="user"></user-form>
   </div>
 </template>
 
 <script>
+import UserForm from "@/components/UserForm";
 import loader from "@/utils/backend";
 
 export default {
   name: "editUser",
+  components: {
+    "user-form": UserForm
+  },
   mounted: function() {
     loader(`http://localhost:3000/users/${this.$route.params.id}`).then(
       data => {
