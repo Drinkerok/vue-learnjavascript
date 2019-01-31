@@ -4,14 +4,14 @@
       <label for="firstName">Name</label>
       <input
         id="firstName"
-        name="firstName"
         v-model="user.firstName"
+        name="firstName"
         required
       />
     </div>
     <div class="form-group">
       <label for="lastName">Surname</label>
-      <input id="lastName" name="lastName" v-model="user.lastName" required />
+      <input id="lastName" v-model="user.lastName" name="lastName" required />
     </div>
     <div class="form-group">
       <button type="submit">{{ submitText }}</button>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "user-form",
+  name: "UserForm",
   props: {
     user: {
       type: Object,

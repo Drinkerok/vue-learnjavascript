@@ -33,7 +33,13 @@
           <router-link :to="getUserEditLink(user.id)">...</router-link>
         </td>
         <td>
-          <button class="btn btn-danger" @click="deleteUser(user.id)">X</button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            @click="deleteUser(user.id)"
+          >
+            X
+          </button>
         </td>
       </tr>
     </tbody>
@@ -57,6 +63,11 @@ export default {
       required: true
     }
   },
+  computed: {
+    usersLength: function() {
+      return this.users.length;
+    }
+  },
   methods: {
     getUserAvatar: function(img) {
       return img || DEFAULT_AVATAR;
@@ -66,11 +77,6 @@ export default {
     },
     deleteUser: function(id) {
       this.$emit("userDeleted", id);
-    }
-  },
-  computed: {
-    usersLength: function() {
-      return this.users.length;
     }
   }
 };

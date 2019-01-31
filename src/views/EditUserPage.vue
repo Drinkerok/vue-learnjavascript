@@ -3,47 +3,46 @@
     <p v-if="!isLoaded">Loading...</p>
     <user-form
       v-else
-      :user="Object.assign({}, user)"
-      :submitText="'Сохранить'"
+      submit-text="Сохранить"
+      :user="user"
       @userChanged="editUserToDB"
     ></user-form>
   </div>
 </template>
 
 <script>
-import UserForm from "@/components/UserForm";
-import loader from "@/utils/backend";
+import UserForm from "@/components/UserForm.vue";
+import loader from "@/utils/backend.js";
+import { API } from "@/utils/constants.js";
 
 export default {
-  name: "editUser",
+  name: "EditUser",
   components: {
     "user-form": UserForm
   },
-  mounted: function() {
-    loader(`http://localhost:3000/users/${this.$route.params.id}`).then(
-      data => {
-        this.user = data;
-        this.isLoaded = true;
-      }
-    );
-  },
   data: function() {
     return {
-      user: {},
+      user: null,
       isLoaded: false
     };
   },
+  computed: {
+    userId: function() {
+      return this.$route.params.id;
+    }
+  },
+  mounted: function() {
+    loader(`${API.users}/${this.userId}`).then(data => {
+      this.user = data;
+      this.isLoaded = true;
+    });
+  },
   methods: {
-    editUserToDB: function(userData) {
-      const requestSettings = {
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": `application/json`
-        },
-        method: `PUT`
-      };
-
-      loader(`http://localhost:3000/users/${userData.id}`, requestSettings);
+    editUserToDB: function(data) {
+      loader(`${API.users}/${this.userId}`, {
+        data,
+        method: "PUT"
+      });
     }
   }
 };

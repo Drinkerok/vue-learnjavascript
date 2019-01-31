@@ -1,19 +1,20 @@
 <template>
   <div>
     <user-form
-      :user="Object.assign({}, user)"
-      :submitText="'Добавить'"
+      :user="user"
+      submit-text="Добавить"
       @userChanged="addUserToDB"
     ></user-form>
   </div>
 </template>
 
 <script>
-import UserForm from "@/components/UserForm";
-import loader from "@/utils/backend";
+import UserForm from "@/components/UserForm.vue";
+import loader from "@/utils/backend.js";
+import { API } from "@/utils/constants.js";
 
 export default {
-  name: "addUser",
+  name: "AddUser",
   components: {
     "user-form": UserForm
   },
@@ -23,20 +24,13 @@ export default {
     };
   },
   methods: {
-    addUserToDB: function(userData) {
-      userData.id = (Date.now() + Math.random()).toString();
+    addUserToDB: function(data) {
+      data.id = (Date.now() + Math.random()).toString();
 
-      const requestSettings = {
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": `application/json`
-        },
-        method: `POST`
-      };
-
-      loader(`http://localhost:3000/users`, requestSettings).then(
-        () => (this.user = {})
-      );
+      loader(API.users, {
+        data,
+        method: "POST"
+      }).then(() => (this.user = {}));
     }
   }
 };

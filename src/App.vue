@@ -19,8 +19,6 @@
 <script></script>
 
 <style>
-@import "./../node_modules/bootstrap/dist/css/bootstrap.min.css";
-
 .navigation {
   background-color: #f2f2f2;
 }

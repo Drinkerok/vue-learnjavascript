@@ -7,7 +7,7 @@
       "picture": "http://placehold.it/128x128",
       "age": 34,
       "accessLevel": "user",
-      "firstName": "Millie1",
+      "firstName": "Millie",
       "lastName": "Lowe",
       "company": "ZENSUS",
       "email": "millie.lowe@zensus.tv",
@@ -63,22 +63,6 @@
       "address": "719 Kensington Street, Tooleville, Missouri, 9799",
       "about": "Culpa mollit cillum fugiat deserunt. Minim eu Lorem est enim mollit. Duis elit incididunt deserunt tempor dolore aliquip adipisicing eiusmod commodo exercitation consequat nostrud ipsum. Ea in duis aute in consequat irure aliquip cillum aliqua deserunt duis id. Ea officia commodo dolor esse laborum id. Nisi commodo sint quis reprehenderit laborum exercitation. Enim est cillum ipsum ipsum irure amet cupidatat.",
       "registered": "07.07.2015"
-    },
-    {
-      "id": 4,
-      "isActive": true,
-      "balance": "$2,384.89",
-      "picture": "http://placehold.it/128x128",
-      "age": 35,
-      "accessLevel": "admin",
-      "firstName": "Kellie",
-      "lastName": "Wright",
-      "company": "TUBESYS",
-      "email": "kellie.wright@tubesys.ca",
-      "phone": "+7 (812) 520-3606",
-      "address": "705 Neptune Court, Breinigsville, Idaho, 3064",
-      "about": "Ipsum incididunt ut est irure anim reprehenderit. Sunt dolor cupidatat non culpa exercitation nisi mollit Lorem id deserunt sit. Enim irure fugiat officia veniam ea labore occaecat pariatur incididunt ut. In consectetur do exercitation culpa aute laborum ipsum proident ad. Reprehenderit veniam nostrud fugiat pariatur aliquip deserunt id ullamco culpa magna eu ex anim ut. Sunt voluptate sunt proident est cupidatat voluptate tempor id eiusmod elit consectetur tempor consequat mollit.",
-      "registered": "02.02.2014"
     },
     {
       "id": 5,

@@ -6,7 +6,15 @@ const checkStatus = response => {
   throw new Error(`${response.status}: ${response.statusText}`);
 };
 
-export default function loader(url, settings) {
+export default function loader(url, { method = "GET", data } = {}) {
+  const settings = {
+    body: data ? JSON.stringify(data) : null,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method
+  };
+
   return fetch(url, settings)
     .then(checkStatus)
     .then(response => response.json());

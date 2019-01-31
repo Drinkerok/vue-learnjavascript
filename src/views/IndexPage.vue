@@ -10,19 +10,14 @@
 </template>
 
 <script>
-import loader from "@/utils/backend";
-import UserTable from "@/components/UserTable";
+import UserTable from "@/components/UserTable.vue";
+import loader from "@/utils/backend.js";
+import { API } from "@/utils/constants.js";
 
 export default {
   name: "IndexPage",
   components: {
     "user-table": UserTable
-  },
-  mounted: function() {
-    loader(`http://localhost:3000/users`).then(data => {
-      this.users = data;
-      this.isLoaded = true;
-    });
   },
   data: function() {
     return {
@@ -30,18 +25,20 @@ export default {
       isLoaded: false
     };
   },
+  mounted: function() {
+    loader(API.users).then(data => {
+      this.users = data;
+      this.isLoaded = true;
+    });
+  },
   methods: {
     deleteUserFromDB: function(id) {
-      const requestSettings = {
-        headers: {
-          "Content-Type": `application/json`
-        },
-        method: `DELETE`
-      };
-
-      loader(`http://localhost:3000/users/${id}`, requestSettings).then(
-        () => (this.users = this.users.filter(user => user.id !== id))
-      );
+      loader(`${API.users}/${id}`, {
+        method: "DELETE"
+      }).then(this.removeUserById(id));
+    },
+    removeUserById: function(id) {
+      this.users = this.users.filter(user => user.id !== id);
     }
   }
 };
