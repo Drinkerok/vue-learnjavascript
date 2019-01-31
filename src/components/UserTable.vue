@@ -10,6 +10,7 @@
         <th>Phone</th>
         <th>Email</th>
         <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -31,11 +32,14 @@
         <td>
           <router-link :to="getUserEditLink(user.id)">...</router-link>
         </td>
+        <td>
+          <button class="btn btn-danger" @click="deleteUser(user.id)">X</button>
+        </td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="5">Всего пользователей: {{ usersLength }}</td>
+        <td colspan="9">Всего пользователей: {{ usersLength }}</td>
       </tr>
     </tfoot>
   </table>
@@ -59,6 +63,9 @@ export default {
     },
     getUserEditLink: function(id) {
       return `/edit/${id}`;
+    },
+    deleteUser: function(id) {
+      this.$emit("userDeleted", id);
     }
   },
   computed: {

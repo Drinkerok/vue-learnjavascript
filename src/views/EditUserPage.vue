@@ -1,7 +1,12 @@
 <template>
   <div>
     <p v-if="!isLoaded">Loading...</p>
-    <user-form v-else :user="user"></user-form>
+    <user-form
+      v-else
+      :user="Object.assign({}, user)"
+      :submitText="'Сохранить'"
+      @userChanged="editUserToDB"
+    ></user-form>
   </div>
 </template>
 
@@ -27,6 +32,19 @@ export default {
       user: {},
       isLoaded: false
     };
+  },
+  methods: {
+    editUserToDB: function(userData) {
+      const requestSettings = {
+        body: JSON.stringify(userData),
+        headers: {
+          "Content-Type": `application/json`
+        },
+        method: `PUT`
+      };
+
+      loader(`http://localhost:3000/users/${userData.id}`, requestSettings);
+    }
   }
 };
 </script>

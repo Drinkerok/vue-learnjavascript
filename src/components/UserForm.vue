@@ -1,12 +1,20 @@
 <template>
-  <form action="#">
+  <form role="form" @submit.prevent="submitHandler">
     <div class="form-group">
-      <label for="name">Name</label>
-      <input id="name" name="name" :value="user.firstName" />
+      <label for="firstName">Name</label>
+      <input
+        id="firstName"
+        name="firstName"
+        v-model="user.firstName"
+        required
+      />
     </div>
     <div class="form-group">
-      <label for="surname">Surname</label>
-      <input id="surname" name="surname" :value="user.lastName" />
+      <label for="lastName">Surname</label>
+      <input id="lastName" name="lastName" v-model="user.lastName" required />
+    </div>
+    <div class="form-group">
+      <button type="submit">{{ submitText }}</button>
     </div>
   </form>
 </template>
@@ -18,8 +26,16 @@ export default {
     user: {
       type: Object,
       required: true
+    },
+    submitText: {
+      type: String,
+      default: "Отправить"
     }
   },
-  methods: {}
+  methods: {
+    submitHandler: function() {
+      this.$emit("userChanged", this.user);
+    }
+  }
 };
 </script>
