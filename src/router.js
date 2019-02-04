@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import IndexPage from "./views/IndexPage.vue";
-import EditUserPage from "./views/EditUserPage.vue";
-import AddUserPage from "./views/AddUserPage.vue";
+import EditUserPage from "@/views/EditUserPage.vue";
+import AddUserPage from "@/views/AddUserPage.vue";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 

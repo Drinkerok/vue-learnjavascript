@@ -1,11 +1,9 @@
 <template>
   <div>
-    <select v-model="count" name="usersPerPage">
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="15">15</option>
-    </select>
-    <table class="table table-hover">
+    <usersPerPage v-model="count"></usersPerPage>
+    <input v-model="search" type="text" />
+    <p v-if="filteredUsers.length === 0">Нет пользователей</p>
+    <table v-else class="table table-hover">
       <thead>
         <tr>
           <th>ID</th>
@@ -55,30 +53,27 @@
         </tr>
       </tfoot>
     </table>
-    <div class="pagination">
-      <ul class="pagination__list">
-        <li v-for="i in pages" :key="`page_${i}`" class="pagination__item">
-          <button
-            class="pagination__button"
-            :class="{
-              'pagination__button--active': i == page
-            }"
-            @click="changePage(i)"
-          >
-            {{ i }}
-          </button>
-        </li>
-      </ul>
-    </div>
+    <pagination
+      :pages="pages"
+      :page="+page"
+      @changePage="changePage"
+    ></pagination>
   </div>
 </template>
 
 <script>
+import Pagination from "@/components/Pagination.vue";
+import UsersPerPage from "@/components/UsersPerPage.vue";
+
 const DEFAULT_AVATAR =
   "http://www.forum.vwclub.ua/images/avatars/no_avatar1.gif";
 
 export default {
   name: "UserTable",
+  components: {
+    pagination: Pagination,
+    usersPerPage: UsersPerPage
+  },
   props: {
     users: {
       type: Array,
@@ -86,8 +81,8 @@ export default {
     }
   },
   data: () => ({
-    localUsers: [],
-    count: 10
+    count: 10,
+    search: ""
   }),
   computed: {
     usersLength: function() {
@@ -97,10 +92,12 @@ export default {
       return this.$route.query.page || 1;
     },
     filteredUsers: function() {
-      return this.users.filter(
-        (user, i) =>
-          i >= this.count * (this.page - 1) && i < this.count * this.page
-      );
+      return this.users
+        .filter(user => this.filterByLastName(user))
+        .filter(
+          (user, i) =>
+            i >= this.count * (this.page - 1) && i < this.count * this.page
+        );
     },
     pages: function() {
       return Math.ceil(this.users.length / this.count);
@@ -118,33 +115,15 @@ export default {
     },
     changePage: function(pageNumber) {
       this.$router.push({ ...this.$route, query: { page: pageNumber } });
+    },
+    changeCount(number) {
+      this.count = number;
+    },
+    filterByLastName(user) {
+      return (
+        user.lastName.toLowerCase().indexOf(this.search.toLowerCase()) !== -1
+      );
     }
   }
 };
 </script>
-
-<style>
-.pagination__list {
-  list-style: none;
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-}
-
-.pagination__item {
-  margin-right: 5px;
-}
-
-.pagination__button {
-  padding: 5px 10px;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
-.pagination__button--active {
-  background-color: #000;
-  color: #fff;
-  cursor: default;
-}
-</style>

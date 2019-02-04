@@ -32,7 +32,7 @@ export default {
     });
   },
   methods: {
-    deleteUserFromDB: function(id) {
+    deleteUserFromDB(id) {
       loader(`${API.users}/${id}`, {
         method: "DELETE"
       }).then(this.removeUserById(id));

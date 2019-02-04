@@ -29,7 +29,7 @@ export default {
   },
   data: function() {
     return {
-      user: DEFAULT_USER
+      user: { ...DEFAULT_USER }
     };
   },
   methods: {
@@ -37,7 +37,7 @@ export default {
       loader(API.users, {
         data: this.user,
         method: "POST"
-      }).then(() => (this.user = DEFAULT_USER));
+      }).then(() => this.$router.push({ path: "/" }));
     }
   }
 };

@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div id="app">
+      <history></history>
       <nav class="navigation">
         <ul class="navigation__list">
           <li class="navigation__item">
@@ -16,7 +17,16 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import HistoryNav from "@/components/HistoryNav.vue";
+
+export default {
+  name: "App",
+  components: {
+    history: HistoryNav
+  }
+};
+</script>
 
 <style>
 * {

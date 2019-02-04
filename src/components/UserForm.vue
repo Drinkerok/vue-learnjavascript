@@ -57,7 +57,7 @@ export default {
     }
   },
   created() {
-    this.localUser = Object.assign({}, this.user);
+    this.localUser = { ...this.user };
   }
 };
 </script>

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div>
+      <button type="button" :disabled="userId === 0" @click="prevUser">
+        Предыдущий пользователь
+      </button>
+      <button type="button" @click="nextUser">Следующий пользователь</button>
+    </div>
     <p v-if="!user">Loading...</p>
     <form v-else @submit.prevent="editUserToDB">
       <user-form v-model="user"></user-form>
@@ -26,25 +32,38 @@ export default {
     };
   },
   computed: {
-    userId: function() {
+    userId() {
       return this.$route.params.id;
     },
-    backendUrl: function() {
+    backendUrl() {
       return `${API.users}/${this.userId}`;
     }
   },
-  mounted: function() {
+  mounted() {
     loader(this.backendUrl).then(data => {
       this.user = data;
     });
   },
   methods: {
-    editUserToDB: function() {
+    editUserToDB() {
       loader(this.backendUrl, {
         data: this.user,
         method: "PUT"
       }).then(() => this.$router.push({ path: "/" }));
+    },
+    prevUser() {
+      this.$router.push({ ...this.$route, params: { id: +this.userId - 1 } });
+    },
+    nextUser() {
+      this.$router.push({ ...this.$route, params: { id: +this.userId + 1 } });
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.user = null;
+    next();
+    loader(this.backendUrl).then(data => {
+      this.user = data;
+    });
   }
 };
 </script>
