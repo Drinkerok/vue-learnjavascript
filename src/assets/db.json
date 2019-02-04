@@ -49,22 +49,6 @@
       "registered": "20.01.2019"
     },
     {
-      "id": 3,
-      "isActive": false,
-      "balance": "$3,972.51",
-      "picture": "http://placehold.it/128x128",
-      "age": 26,
-      "accessLevel": "user",
-      "firstName": "Christian",
-      "lastName": "Berger",
-      "company": "DUOFLEX",
-      "email": "christian.berger@duoflex.us",
-      "phone": "+7 (991) 512-3921",
-      "address": "719 Kensington Street, Tooleville, Missouri, 9799",
-      "about": "Culpa mollit cillum fugiat deserunt. Minim eu Lorem est enim mollit. Duis elit incididunt deserunt tempor dolore aliquip adipisicing eiusmod commodo exercitation consequat nostrud ipsum. Ea in duis aute in consequat irure aliquip cillum aliqua deserunt duis id. Ea officia commodo dolor esse laborum id. Nisi commodo sint quis reprehenderit laborum exercitation. Enim est cillum ipsum ipsum irure amet cupidatat.",
-      "registered": "07.07.2015"
-    },
-    {
       "id": 5,
       "isActive": false,
       "balance": "$1,382.50",
@@ -383,6 +367,15 @@
       "address": "254 Turnbull Avenue, Cedarville, New Jersey, 2756",
       "about": "Nostrud et labore eu adipisicing. Veniam eiusmod Lorem in Lorem et. Laboris cupidatat sunt ea eu dolore aliqua ullamco deserunt est. Nulla officia labore aute labore laboris voluptate veniam aliquip do.",
       "registered": "05.05.2018"
+    },
+    {
+      "id": 25,
+      "avatar": "",
+      "firstName": "123123123123",
+      "lastName": "qweqweqwe",
+      "balance": "",
+      "phone": "",
+      "email": ""
     }
   ]
 }

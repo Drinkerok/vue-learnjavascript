@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p v-if="!isLoaded">Loading...</p>
-    <user-form
-      v-else
-      submit-text="Сохранить"
-      :user="user"
-      @userChanged="editUserToDB"
-    ></user-form>
+    <p v-if="!user">Loading...</p>
+    <form v-else @submit.prevent="editUserToDB">
+      <user-form v-model="user"></user-form>
+      <div class="form-group">
+        <button type="submit">Сохранить</button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -22,27 +22,28 @@ export default {
   },
   data: function() {
     return {
-      user: null,
-      isLoaded: false
+      user: null
     };
   },
   computed: {
     userId: function() {
       return this.$route.params.id;
+    },
+    backendUrl: function() {
+      return `${API.users}/${this.userId}`;
     }
   },
   mounted: function() {
-    loader(`${API.users}/${this.userId}`).then(data => {
+    loader(this.backendUrl).then(data => {
       this.user = data;
-      this.isLoaded = true;
     });
   },
   methods: {
-    editUserToDB: function(data) {
-      loader(`${API.users}/${this.userId}`, {
-        data,
+    editUserToDB: function() {
+      loader(this.backendUrl, {
+        data: this.user,
         method: "PUT"
-      });
+      }).then(() => this.$router.push({ path: "/" }));
     }
   }
 };
