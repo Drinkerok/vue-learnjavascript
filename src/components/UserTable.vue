@@ -13,13 +13,18 @@
           <th>Balance</th>
           <th>Phone</th>
           <th>Email</th>
-          <th>Edit</th>
+          <th>Registered</th>
+          <th>About</th>
           <th>Delete</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="user of filteredUsers" :key="user.id">
-          <td>{{ user.id }}</td>
+          <td>
+            <router-link :to="getUserEditLink(user.id)">
+              {{ user.id }}
+            </router-link>
+          </td>
           <td>
             <img
               :src="getUserAvatar(user.picture)"
@@ -33,9 +38,8 @@
           <td>{{ user.balance }}</td>
           <td>{{ user.phone }}</td>
           <td>{{ user.email }}</td>
-          <td>
-            <router-link :to="getUserEditLink(user.id)">...</router-link>
-          </td>
+          <td>{{ user.registered }}</td>
+          <td v-html="user.about"></td>
           <td>
             <button
               type="button"
@@ -49,7 +53,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="9">Всего пользователей: {{ usersLength }}</td>
+          <td colspan="10">Всего пользователей: {{ usersLength }}</td>
         </tr>
       </tfoot>
     </table>
