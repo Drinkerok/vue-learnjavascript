@@ -1,7 +1,7 @@
 <template>
   <div>
-    <usersPerPage v-model="count"></usersPerPage>
-    <input v-model="search" type="text" />
+    <UsersPerPage v-model="count"></UsersPerPage>
+    <SearchInput v-model="search"></SearchInput>
     <p v-if="filteredUsers.length === 0">Нет пользователей</p>
     <table v-else class="table table-hover">
       <thead>
@@ -34,7 +34,7 @@
           <td>{{ user.phone }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <router-link :to="getUserEditLink(user.id)">...</router-link>
+            <RouterLink :to="getUserEditLink(user.id)">...</RouterLink>
           </td>
           <td>
             <button
@@ -53,17 +53,14 @@
         </tr>
       </tfoot>
     </table>
-    <pagination
-      :pages="pages"
-      :page="+page"
-      @changePage="changePage"
-    ></pagination>
+    <Pagination v-model="page" :pages="pages"></Pagination>
   </div>
 </template>
 
 <script>
 import Pagination from "@/components/Pagination.vue";
 import UsersPerPage from "@/components/UsersPerPage.vue";
+import SearchInput from "@/components/SearchInput.vue";
 
 const DEFAULT_AVATAR =
   "http://www.forum.vwclub.ua/images/avatars/no_avatar1.gif";
@@ -71,8 +68,9 @@ const DEFAULT_AVATAR =
 export default {
   name: "UserTable",
   components: {
-    pagination: Pagination,
-    usersPerPage: UsersPerPage
+    Pagination,
+    UsersPerPage,
+    SearchInput
   },
   props: {
     users: {
@@ -82,16 +80,14 @@ export default {
   },
   data: () => ({
     count: 10,
-    search: ""
+    search: "",
+    page: null
   }),
   computed: {
-    usersLength: function() {
+    usersLength() {
       return this.users.length;
     },
-    page: function() {
-      return this.$route.query.page || 1;
-    },
-    filteredUsers: function() {
+    filteredUsers() {
       return this.users
         .filter(user => this.filterByLastName(user))
         .filter(
@@ -100,24 +96,22 @@ export default {
         );
     },
     pages: function() {
-      return Math.ceil(this.users.length / this.count);
+      const arr = this.search ? this.filteredUsers : this.users;
+      return Math.ceil(arr.length / this.count);
     }
   },
+  created() {
+    this.page = +this.$route.query.page || 1;
+  },
   methods: {
-    getUserAvatar: function(img) {
+    getUserAvatar(img) {
       return img || DEFAULT_AVATAR;
     },
-    getUserEditLink: function(id) {
+    getUserEditLink(id) {
       return `/edit/${id}`;
     },
-    deleteUser: function(id) {
+    deleteUser(id) {
       this.$emit("userDeleted", id);
-    },
-    changePage: function(pageNumber) {
-      this.$router.push({ ...this.$route, query: { page: pageNumber } });
-    },
-    changeCount(number) {
-      this.count = number;
     },
     filterByLastName(user) {
       return (

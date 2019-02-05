@@ -1,8 +1,6 @@
 <template>
   <select v-model="localCount">
-    <option v-for="count in counts" :key="count" :value="count">{{
-      count
-    }}</option>
+    <option v-for="val in counts" :key="val" :value="val">{{ val }}</option>
   </select>
 </template>
 

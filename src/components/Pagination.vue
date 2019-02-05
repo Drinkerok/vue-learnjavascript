@@ -6,7 +6,7 @@
           class="pagination__button"
           type="button"
           :class="{
-            'pagination__button--active': i == page
+            'pagination__button--active': i === currentPage
           }"
           @click="changePage(i)"
         >
@@ -20,6 +20,9 @@
 <script>
 export default {
   name: "Pagination",
+  model: {
+    prop: "page"
+  },
   props: {
     pages: {
       type: Number,
@@ -30,9 +33,33 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    currentPage: null
+  }),
+  watch: {
+    page: {
+      handler() {
+        this.currentPage = this.page;
+      }
+    },
+    pages: {
+      handler() {
+        if (this.pages < this.page) {
+          this.changePage(this.pages);
+        }
+      }
+    }
+  },
+  created() {
+    this.currentPage = this.page;
+  },
   methods: {
     changePage(id) {
-      this.$emit("changePage", id);
+      if (this.currentPage === id) {
+        return;
+      }
+      this.$router.push({ ...this.$route, query: { page: id } });
+      this.$emit("input", id);
     }
   }
 };

@@ -1,11 +1,11 @@
 <template>
   <div>
     <p v-if="!isLoaded">Loading...</p>
-    <user-table
+    <UserTable
       v-else
       :users="users"
       @userDeleted="deleteUserFromDB"
-    ></user-table>
+    ></UserTable>
   </div>
 </template>
 
@@ -17,15 +17,13 @@ import { API } from "@/utils/constants.js";
 export default {
   name: "IndexPage",
   components: {
-    "user-table": UserTable
+    UserTable
   },
-  data: function() {
-    return {
-      users: [],
-      isLoaded: false
-    };
-  },
-  mounted: function() {
+  data: () => ({
+    users: [],
+    isLoaded: false
+  }),
+  mounted() {
     loader(API.users).then(data => {
       this.users = data;
       this.isLoaded = true;

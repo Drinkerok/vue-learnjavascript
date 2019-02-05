@@ -1,6 +1,6 @@
 <template>
   <div>
-    <user-form v-model="user"></user-form>
+    <UserForm v-model="user"></UserForm>
     <div class="form-group">
       <button type="submit" @click="addUserToDB">Добавить</button>
     </div>
@@ -17,7 +17,7 @@ const DEFAULT_USER = {
   avatar: "",
   firstName: "",
   lastName: "",
-  balance: 0,
+  balance: "$0",
   phone: "",
   email: ""
 };
@@ -25,15 +25,13 @@ const DEFAULT_USER = {
 export default {
   name: "AddUser",
   components: {
-    "user-form": UserForm
+    UserForm
   },
-  data: function() {
-    return {
-      user: { ...DEFAULT_USER }
-    };
-  },
+  data: () => ({
+    user: { ...DEFAULT_USER }
+  }),
   methods: {
-    addUserToDB: function() {
+    addUserToDB() {
       loader(API.users, {
         data: this.user,
         method: "POST"

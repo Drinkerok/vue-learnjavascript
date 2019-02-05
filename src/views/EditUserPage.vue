@@ -8,9 +8,10 @@
     </div>
     <p v-if="!user">Loading...</p>
     <form v-else @submit.prevent="editUserToDB">
-      <user-form v-model="user"></user-form>
+      <UserForm v-model="user"></UserForm>
       <div class="form-group">
         <button type="submit">Сохранить</button>
+        <button type="button" @click="deleteUser">Удалить</button>
       </div>
     </form>
   </div>
@@ -24,31 +25,34 @@ import { API } from "@/utils/constants.js";
 export default {
   name: "EditUser",
   components: {
-    "user-form": UserForm
+    UserForm
   },
-  data: function() {
-    return {
-      user: null
-    };
-  },
+  data: () => ({
+    user: null
+  }),
   computed: {
     userId() {
       return this.$route.params.id;
     },
-    backendUrl() {
+    userUrl() {
       return `${API.users}/${this.userId}`;
     }
   },
   mounted() {
-    loader(this.backendUrl).then(data => {
+    loader(this.userUrl).then(data => {
       this.user = data;
     });
   },
   methods: {
     editUserToDB() {
-      loader(this.backendUrl, {
+      loader(this.userUrl, {
         data: this.user,
         method: "PUT"
+      }).then(() => this.$router.push({ path: "/" }));
+    },
+    deleteUser() {
+      loader(this.userUrl, {
+        method: "DELETE"
       }).then(() => this.$router.push({ path: "/" }));
     },
     prevUser() {
@@ -61,7 +65,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     this.user = null;
     next();
-    loader(this.backendUrl).then(data => {
+    loader(this.userUrl).then(data => {
       this.user = data;
     });
   }
