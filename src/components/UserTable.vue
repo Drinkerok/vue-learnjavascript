@@ -34,7 +34,7 @@
           <td>{{ user.phone }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <RouterLink :to="getUserEditLink(user.id)">...</RouterLink>
+            <router-link :to="getUserEditLink(user.id)">...</router-link>
           </td>
           <td>
             <button

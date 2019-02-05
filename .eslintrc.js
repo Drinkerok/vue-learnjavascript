@@ -6,7 +6,8 @@ module.exports = {
   extends: ["plugin:vue/recommended", "@vue/prettier"],
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off"
+    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
+    "vue/component-name-in-template-casing": ["PascalCase", { registeredComponentsOnly: true }]
   },
   parserOptions: {
     parser: "babel-eslint"
