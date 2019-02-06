@@ -1,31 +1,28 @@
 <template>
-  <input v-model="search" type="text" />
+  <input
+    :value="search"
+    type="text"
+    placeholder="Search by surname"
+    @input="updateSearchQuery($event.target.value)"
+  />
 </template>
 
 <script>
 export default {
   name: "SearchInput",
   model: {
-    prop: "val"
+    prop: "search"
   },
   props: {
-    val: {
+    search: {
       type: String,
       required: true
     }
   },
-  data: () => ({
-    search: ""
-  }),
-  watch: {
-    search: {
-      handler() {
-        this.$emit("input", this.search);
-      }
+  methods: {
+    updateSearchQuery(value) {
+      this.$emit("input", value.trim());
     }
-  },
-  created() {
-    this.search = this.val;
   }
 };
 </script>

@@ -10,6 +10,11 @@
           <li class="navigation__item">
             <router-link to="/add" class="navigation__link">Add</router-link>
           </li>
+          <li class="navigation__item">
+            <router-link to="/phonebook" class="navigation__link">
+              Phonebook
+            </router-link>
+          </li>
         </ul>
       </nav>
       <router-view />

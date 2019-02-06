@@ -3,6 +3,7 @@ import Router from "vue-router";
 import IndexPage from "./views/IndexPage.vue";
 import EditUserPage from "@/views/EditUserPage.vue";
 import AddUserPage from "@/views/AddUserPage.vue";
+import Phonebook from "@/views/Phonebook.vue";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
@@ -27,6 +28,11 @@ const router = new Router({
       path: "/add",
       name: "AddUser",
       component: AddUserPage
+    },
+    {
+      path: "/phonebook",
+      name: "Phonebook",
+      component: Phonebook
     }
   ]
 });

@@ -5,58 +5,56 @@
     <p v-if="filteredUsers.length === 0">Нет пользователей</p>
     <table v-else class="table table-hover">
       <thead>
-        <tr>
-          <th>ID</th>
-          <th>Avatar</th>
-          <th>Name</th>
-          <th>Surname</th>
-          <th>Balance</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th>Registered</th>
-          <th>About</th>
-          <th>Delete</th>
-        </tr>
+        <slot name="thead">
+          <tr>
+            <th>ID</th>
+            <th>Avatar</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Balance</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Registered</th>
+            <th>Delete</th>
+          </tr>
+        </slot>
       </thead>
       <tbody>
         <tr v-for="user of filteredUsers" :key="user.id">
-          <td>
-            <router-link :to="getUserEditLink(user.id)">
-              {{ user.id }}
-            </router-link>
-          </td>
-          <td>
-            <img
-              :src="getUserAvatar(user.picture)"
-              alt=""
-              width="30"
-              height="30"
-            />
-          </td>
-          <td>{{ user.firstName }}</td>
-          <td>{{ user.lastName }}</td>
-          <td>{{ user.balance }}</td>
-          <td>{{ user.phone }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.registered }}</td>
-          <td v-html="user.about"></td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-danger"
-              @click="deleteUser(user.id)"
-            >
-              X
-            </button>
-          </td>
+          <slot name="trow" :user="user">
+            <td>
+              <router-link :to="getUserEditLink(user.id)">
+                {{ user.id }}
+              </router-link>
+            </td>
+            <td>
+              <img
+                :src="getUserAvatar(user.picture)"
+                alt=""
+                width="30"
+                height="30"
+              />
+            </td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.balance }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.registered }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-danger"
+                @click="deleteUser(user.id)"
+              >
+                X
+              </button>
+            </td>
+          </slot>
         </tr>
       </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="10">Всего пользователей: {{ usersLength }}</td>
-        </tr>
-      </tfoot>
     </table>
+    <p>Всего пользователей: {{ usersLength }}</p>
     <Pagination v-model="page" :pages="pages"></Pagination>
   </div>
 </template>
@@ -101,7 +99,7 @@ export default {
     },
     pages: function() {
       const arr = this.search ? this.filteredUsers : this.users;
-      return Math.ceil(arr.length / this.count);
+      return Math.max(Math.ceil(arr.length / this.count), 1);
     }
   },
   created() {

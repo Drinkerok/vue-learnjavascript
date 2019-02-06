@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-if="!isLoaded">Loading...</p>
+    <p v-if="users.length === 0">Loading...</p>
     <UserTable
       v-else
       :users="users"
@@ -20,13 +20,11 @@ export default {
     UserTable
   },
   data: () => ({
-    users: [],
-    isLoaded: false
+    users: []
   }),
   mounted() {
     loader(API.users).then(data => {
       this.users = data;
-      this.isLoaded = true;
     });
   },
   methods: {

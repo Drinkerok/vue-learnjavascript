@@ -16,7 +16,7 @@ export default {
   props: {
     about: {
       type: String,
-      required: true
+      default: ""
     }
   },
   data: () => ({

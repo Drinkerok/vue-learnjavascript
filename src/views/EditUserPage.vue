@@ -32,7 +32,7 @@ export default {
   }),
   computed: {
     userId() {
-      return this.$route.params.id;
+      return +this.$route.params.id;
     },
     userUrl() {
       return `${API.users}/${this.userId}`;

@@ -1,5 +1,5 @@
 <template>
-  <input ref="datepicker" v-model="date" />
+  <input ref="datepicker" :value="value" />
 </template>
 
 <script>
@@ -12,11 +12,10 @@ export default {
   props: {
     value: {
       type: String,
-      required: true
+      default: Date.now().toString()
     }
   },
   data: () => ({
-    date: null,
     fp: null
   }),
   watch: {
@@ -28,9 +27,6 @@ export default {
   },
   mounted() {
     this.initCalendar();
-  },
-  created() {
-    this.date = this.value;
   },
   methods: {
     initCalendar() {

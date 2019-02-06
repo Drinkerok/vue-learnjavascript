@@ -1,6 +1,8 @@
 <template>
-  <select v-model="localCount">
-    <option v-for="val in counts" :key="val" :value="val">{{ val }}</option>
+  <select :value="count" @input="changeOption($event.target.value)">
+    <option v-for="val in countOptions" :key="val" :value="val">
+      {{ val }}
+    </option>
   </select>
 </template>
 
@@ -16,21 +18,16 @@ export default {
     count: {
       type: Number,
       required: true
+    },
+    countOptions: {
+      type: Array,
+      default: () => DEFAULT_COUNTS
     }
   },
-  data: () => ({
-    localCount: null,
-    counts: DEFAULT_COUNTS
-  }),
-  watch: {
-    localCount: {
-      handler() {
-        this.$emit("input", this.localCount);
-      }
+  methods: {
+    changeOption(value) {
+      this.$emit("input", +value);
     }
-  },
-  created() {
-    this.localCount = this.count;
   }
 };
 </script>

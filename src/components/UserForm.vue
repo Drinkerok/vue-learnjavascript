@@ -49,7 +49,6 @@
     </div>
     <div class="form-group">
       <label for="registered">Registered</label>
-      <input v-model="localUser.registered" />
       <Datepicker
         id="registered"
         v-model="localUser.registered"
