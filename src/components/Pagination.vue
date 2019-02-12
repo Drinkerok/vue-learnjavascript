@@ -1,5 +1,12 @@
 <template>
   <div class="pagination">
+    <button
+      type="button"
+      :disabled="disabledPrev"
+      @click="changePage(page - 1)"
+    >
+      &lt;
+    </button>
     <ul class="pagination__list">
       <li v-for="i in pages" :key="`page_${i}`" class="pagination__item">
         <button
@@ -14,6 +21,13 @@
         </button>
       </li>
     </ul>
+    <button
+      type="button"
+      :disabled="disabledNext"
+      @click="changePage(page + 1)"
+    >
+      &gt;
+    </button>
   </div>
 </template>
 
@@ -33,11 +47,17 @@ export default {
       required: true
     }
   },
+  computed: {
+    disabledPrev() {
+      return this.page <= 1;
+    },
+    disabledNext() {
+      return this.page >= this.pages;
+    }
+  },
   watch: {
-    pages: {
-      handler() {
-        this.changePage(1);
-      }
+    pages() {
+      this.changePage(1);
     }
   },
   methods: {
@@ -45,7 +65,6 @@ export default {
       if (this.page === id) {
         return;
       }
-      this.$router.push({ ...this.$route, query: { page: id } });
       this.$emit("input", id);
     }
   }

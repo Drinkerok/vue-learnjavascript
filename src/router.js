@@ -1,9 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import IndexPage from "./views/IndexPage.vue";
-import EditUserPage from "@/views/EditUserPage.vue";
-import AddUserPage from "@/views/AddUserPage.vue";
-import Phonebook from "@/views/Phonebook.vue";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
@@ -17,22 +13,22 @@ const router = new Router({
     {
       path: "/",
       name: "IndexPage",
-      component: IndexPage
+      component: () => import("./views/IndexPage.vue")
     },
     {
       path: "/edit/:id",
       name: "EditUser",
-      component: EditUserPage
+      component: () => import("./views/EditUserPage.vue")
     },
     {
       path: "/add",
       name: "AddUser",
-      component: AddUserPage
+      component: () => import("./views/AddUserPage.vue")
     },
     {
       path: "/phonebook",
       name: "Phonebook",
-      component: Phonebook
+      component: () => import("./views/Phonebook.vue")
     }
   ]
 });

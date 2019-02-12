@@ -7,7 +7,7 @@
       "picture": "http://placehold.it/128x128",
       "age": 34,
       "accessLevel": "user",
-      "firstName": "Millie",
+      "firstName": "Millie1",
       "lastName": "Lowe",
       "company": "ZENSUS",
       "email": "millie.lowe@zensus.tv",
@@ -367,15 +367,6 @@
       "address": "254 Turnbull Avenue, Cedarville, New Jersey, 2756",
       "about": "Nostrud et labore eu adipisicing. Veniam eiusmod Lorem in Lorem et. Laboris cupidatat sunt ea eu dolore aliqua ullamco deserunt est. Nulla officia labore aute labore laboris voluptate veniam aliquip do.",
       "registered": "05.05.2018"
-    },
-    {
-      "id": 25,
-      "avatar": "",
-      "firstName": "123123123123",
-      "lastName": "qweqweqwe",
-      "balance": "",
-      "phone": "",
-      "email": ""
     }
   ]
 }

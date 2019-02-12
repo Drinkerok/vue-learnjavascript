@@ -1,5 +1,5 @@
 <template>
-  <vue-editor v-model="val"></vue-editor>
+  <vue-editor v-model="val" />
 </template>
 
 <script>
@@ -16,21 +16,27 @@ export default {
   props: {
     about: {
       type: String,
-      default: ""
+      required: true
     }
   },
   data: () => ({
     val: ""
   }),
   watch: {
-    val: {
-      handler() {
-        this.$emit("input", this.val);
-      }
+    about() {
+      if (this.about !== this.val) this.createLoacalValue();
+    },
+    val() {
+      this.$emit("input", this.val);
     }
   },
   created() {
-    this.val = this.about;
+    this.createLoacalValue();
+  },
+  methods: {
+    createLoacalValue() {
+      this.val = this.about;
+    }
   }
 };
 </script>

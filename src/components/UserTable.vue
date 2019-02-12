@@ -1,8 +1,8 @@
 <template>
   <div>
-    <UsersPerPage v-model="count"></UsersPerPage>
-    <SearchInput v-model="search"></SearchInput>
-    <p v-if="filteredUsers.length === 0">Нет пользователей</p>
+    <UsersPerPage v-model.number="count" />
+    <SearchInput v-model="search" />
+    <p v-if="!haveUsers">Нет пользователей</p>
     <table v-else class="table table-hover">
       <thead>
         <slot name="thead">
@@ -55,24 +55,20 @@
       </tbody>
     </table>
     <p>Всего пользователей: {{ usersLength }}</p>
-    <Pagination v-model="page" :pages="pages"></Pagination>
+    <Pagination v-model="page" :pages="pages" />
   </div>
 </template>
 
 <script>
-import Pagination from "@/components/Pagination.vue";
-import UsersPerPage from "@/components/UsersPerPage.vue";
-import SearchInput from "@/components/SearchInput.vue";
-
 const DEFAULT_AVATAR =
   "http://www.forum.vwclub.ua/images/avatars/no_avatar1.gif";
 
 export default {
   name: "UserTable",
   components: {
-    Pagination,
-    UsersPerPage,
-    SearchInput
+    Pagination: () => import("@/components/Pagination.vue"),
+    UsersPerPage: () => import("@/components/UsersPerPage.vue"),
+    SearchInput: () => import("@/components/SearchInput.vue")
   },
   props: {
     users: {
@@ -83,7 +79,7 @@ export default {
   data: () => ({
     count: 10,
     search: "",
-    page: null
+    page: 1
   }),
   computed: {
     usersLength() {
@@ -92,20 +88,35 @@ export default {
     filteredUsers() {
       return this.users
         .filter(user => this.filterByLastName(user))
-        .filter(
-          (user, i) =>
-            i >= this.count * (this.page - 1) && i < this.count * this.page
-        );
+        .filter(this.isUserInRange);
+    },
+    haveUsers() {
+      return this.filteredUsers.length !== 0;
     },
     pages: function() {
       const arr = this.search ? this.filteredUsers : this.users;
       return Math.max(Math.ceil(arr.length / this.count), 1);
     }
   },
+  watch: {
+    page() {
+      this.$router.push({ ...this.$route, query: { page: this.page } });
+    },
+    $route(to) {
+      const nextPage = +to.query.page;
+      if (this.page !== nextPage) this.page = nextPage;
+    }
+  },
   created() {
-    this.page = +this.$route.query.page || 1;
+    this.setPage();
   },
   methods: {
+    setPage() {
+      this.page = +this.$route.query.page || 1;
+    },
+    isUserInRange(user, i) {
+      return i >= this.count * (this.page - 1) && i < this.count * this.page;
+    },
     getUserAvatar(img) {
       return img || DEFAULT_AVATAR;
     },

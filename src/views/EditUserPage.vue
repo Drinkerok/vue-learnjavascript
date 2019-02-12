@@ -8,7 +8,7 @@
     </div>
     <p v-if="!user">Loading...</p>
     <form v-else @submit.prevent="editUserToDB">
-      <UserForm v-model="user"></UserForm>
+      <UserForm v-model="user" />
       <div class="form-group">
         <button type="submit">Сохранить</button>
         <button type="button" @click="deleteUser">Удалить</button>
@@ -18,14 +18,13 @@
 </template>
 
 <script>
-import UserForm from "@/components/UserForm.vue";
 import loader from "@/utils/backend.js";
 import { API } from "@/utils/constants.js";
 
 export default {
   name: "EditUser",
   components: {
-    UserForm
+    UserForm: () => import("@/components/UserForm.vue")
   },
   data: () => ({
     user: null
@@ -38,36 +37,57 @@ export default {
       return `${API.users}/${this.userId}`;
     }
   },
+  watch: {
+    $route() {
+      this.user = null;
+      loader(this.userUrl)
+        .then(data => {
+          this.user = data;
+        })
+        .catch(err => alert(err.message));
+    }
+  },
   mounted() {
-    loader(this.userUrl).then(data => {
-      this.user = data;
-    });
+    this.loadUser();
   },
   methods: {
+    loadUser() {
+      loader(this.userUrl)
+        .then(data => {
+          this.user = data;
+        })
+        .catch(this.networkError);
+    },
+    routeToMain() {
+      this.$router.push({ path: "/" });
+    },
+    networkError(err) {
+      alert(err.message);
+    },
     editUserToDB() {
       loader(this.userUrl, {
         data: this.user,
         method: "PUT"
-      }).then(() => this.$router.push({ path: "/" }));
+      })
+        .then(this.routeToMain)
+        .catch(this.networkError);
     },
     deleteUser() {
       loader(this.userUrl, {
         method: "DELETE"
-      }).then(() => this.$router.push({ path: "/" }));
+      })
+        .then(this.routeToMain)
+        .catch(this.networkError);
+    },
+    changeUser(id) {
+      this.$router.push({ ...this.$route, params: { id } });
     },
     prevUser() {
-      this.$router.push({ ...this.$route, params: { id: +this.userId - 1 } });
+      this.changeUser(this.userId - 1);
     },
     nextUser() {
-      this.$router.push({ ...this.$route, params: { id: +this.userId + 1 } });
+      this.changeUser(this.userId + 1);
     }
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.user = null;
-    next();
-    loader(this.userUrl).then(data => {
-      this.user = data;
-    });
   }
 };
 </script>

@@ -1,14 +1,13 @@
 <template>
   <div>
-    <UserForm v-model="user"></UserForm>
+    <UserForm v-model="user" />
     <div class="form-group">
-      <button type="submit" @click="addUserToDB">Добавить</button>
+      <button type="button" @click="addUserToDB">Добавить</button>
     </div>
   </div>
 </template>
 
 <script>
-import UserForm from "@/components/UserForm.vue";
 import loader from "@/utils/backend.js";
 import { API } from "@/utils/constants.js";
 
@@ -19,13 +18,15 @@ const DEFAULT_USER = {
   lastName: "",
   balance: "$0",
   phone: "",
-  email: ""
+  email: "",
+  about: "",
+  registered: new Date().toLocaleDateString("ru")
 };
 
 export default {
   name: "AddUser",
   components: {
-    UserForm
+    UserForm: () => import("@/components/UserForm.vue")
   },
   data: () => ({
     user: { ...DEFAULT_USER }
@@ -35,7 +36,9 @@ export default {
       loader(API.users, {
         data: this.user,
         method: "POST"
-      }).then(() => this.$router.push({ path: "/" }));
+      })
+        .then(() => this.$router.push({ path: "/" }))
+        .catch(err => alert(err.message));
     }
   }
 };

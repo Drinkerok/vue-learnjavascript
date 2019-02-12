@@ -23,12 +23,10 @@
 </template>
 
 <script>
-import HistoryNav from "@/components/HistoryNav.vue";
-
 export default {
   name: "App",
   components: {
-    history: HistoryNav
+    history: () => import("@/components/HistoryNav.vue")
   }
 };
 </script>

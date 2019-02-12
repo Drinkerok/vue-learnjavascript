@@ -12,17 +12,15 @@ export default {
   props: {
     value: {
       type: String,
-      default: Date.now().toString()
+      required: true
     }
   },
   data: () => ({
     fp: null
   }),
   watch: {
-    value: {
-      handler() {
-        this.updateCalendar();
-      }
+    value() {
+      this.updateCalendar();
     }
   },
   mounted() {

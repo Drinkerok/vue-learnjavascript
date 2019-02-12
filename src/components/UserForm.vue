@@ -67,21 +67,20 @@
       />
     </div>
     <div class="form-group">
-      <label for="about">Email</label>
+      <label for="about">About</label>
       <Editor id="about" v-model="localUser.about" name="about"></Editor>
     </div>
   </div>
 </template>
 
 <script>
-import Datepicker from "@/components/Datepicker.vue";
-import Editor from "@/components/Editor.vue";
+import deepEqual from "deep-equal";
 
 export default {
   name: "UserForm",
   components: {
-    Datepicker,
-    Editor
+    Datepicker: () => import("@/components/Datepicker.vue"),
+    Editor: () => import("@/components/Editor.vue")
   },
   model: {
     prop: "user"
@@ -96,6 +95,9 @@ export default {
     localUser: null
   }),
   watch: {
+    user() {
+      if (!deepEqual(this.user, this.localUser)) this.createLocalUser();
+    },
     localUser: {
       deep: true,
       handler() {
@@ -104,7 +106,12 @@ export default {
     }
   },
   created() {
-    this.localUser = { ...this.user };
+    this.createLocalUser();
+  },
+  methods: {
+    createLocalUser() {
+      this.localUser = { ...this.user };
+    }
   }
 };
 </script>
