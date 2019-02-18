@@ -27,7 +27,8 @@ export default {
     UserForm: () => import("@/components/UserForm.vue")
   },
   data: () => ({
-    user: null
+    user: null,
+    isValidated: true
   }),
   computed: {
     userId() {
@@ -65,6 +66,8 @@ export default {
       alert(err.message);
     },
     editUserToDB() {
+      if (!this.isValidated) return;
+
       loader(this.userUrl, {
         data: this.user,
         method: "PUT"
