@@ -20,7 +20,9 @@ const DEFAULT_USER = {
   phone: "",
   email: "",
   about: "",
-  registered: new Date().toLocaleDateString("ru")
+  registered: new Date().toLocaleDateString("ru"),
+  picture: "",
+  isActive: false
 };
 
 export default {

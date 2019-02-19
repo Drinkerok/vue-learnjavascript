@@ -4,11 +4,7 @@
       <Dropzone v-model="localUser.picture" />
     </div>
     <div class="form-group">
-      <Checkbox
-        v-model="localUser.isActive"
-        :text="'Active'"
-        :name="'active'"
-      />
+      <Checkbox v-model="localUser.isActive" text="Active" name="active" />
     </div>
     <div
       class="form-group"
@@ -102,8 +98,13 @@ export default {
     localUser: null
   }),
   watch: {
-    user() {
-      if (!deepEqual(this.user, this.localUser)) this.createLocalUser();
+    user: {
+      handler() {
+        if (!deepEqual(this.user, this.localUser)) {
+          this.createLocalUser();
+        }
+      },
+      immediate: true
     },
     localUser: {
       deep: true,
@@ -111,9 +112,6 @@ export default {
         this.$emit("input", this.localUser);
       }
     }
-  },
-  created() {
-    this.createLocalUser();
   },
   methods: {
     createLocalUser() {

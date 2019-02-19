@@ -26,6 +26,9 @@ export default {
   mounted() {
     this.initCalendar();
   },
+  beforeDestroy() {
+    this.fp.destroy();
+  },
   methods: {
     initCalendar() {
       this.fp = flatpickr(this.$refs.datepicker, {

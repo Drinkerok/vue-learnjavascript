@@ -2,10 +2,11 @@
   <div class="checkbox">
     <label class="checkbox__label">
       <input
-        v-model="selected"
-        :name="name"
+        :value="value"
+        v-bind="$attrs"
         type="checkbox"
         class="checkbox__input"
+        @input="changeHandler($event.target.value)"
       />
       <span class="checkbox__text">{{ text }}</span>
     </label>
@@ -15,13 +16,10 @@
 <script>
 export default {
   name: "Checkbox",
+  inheritAttrs: false,
   props: {
     value: {
       type: Boolean,
-      required: true
-    },
-    name: {
-      type: String,
       required: true
     },
     text: {
@@ -29,24 +27,9 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    selected: false
-  }),
-  watch: {
-    value() {
-      this.createLocalValue();
-    },
-    selected() {
-      this.$emit("input", this.selected);
-    }
-  },
-  created() {
-    this.createLocalValue();
-  },
   methods: {
-    createLocalValue() {
-      if (this.selected === this.value) return;
-      this.selected = this.value;
+    changeHandler(value) {
+      this.$emit("input", !!value);
     }
   }
 };

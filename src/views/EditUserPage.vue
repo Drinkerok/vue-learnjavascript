@@ -6,7 +6,8 @@
       </button>
       <button type="button" @click="nextUser">Следующий пользователь</button>
     </div>
-    <p v-if="!user">Loading...</p>
+    <p v-if="error">{{ error }}</p>
+    <p v-else-if="!user">Loading...</p>
     <form v-else @submit.prevent="editUserToDB">
       <UserForm v-model="user" />
       <div class="form-group">
@@ -28,6 +29,7 @@ export default {
   },
   data: () => ({
     user: null,
+    error: null,
     isValidated: true
   }),
   computed: {
@@ -40,12 +42,7 @@ export default {
   },
   watch: {
     $route() {
-      this.user = null;
-      loader(this.userUrl)
-        .then(data => {
-          this.user = data;
-        })
-        .catch(err => alert(err.message));
+      this.changeUserHandler();
     }
   },
   mounted() {
@@ -57,13 +54,13 @@ export default {
         .then(data => {
           this.user = data;
         })
-        .catch(this.networkError);
+        .catch(this.setError);
     },
     routeToMain() {
       this.$router.push({ path: "/" });
     },
-    networkError(err) {
-      alert(err.message);
+    setError(err) {
+      this.error = err.message;
     },
     editUserToDB() {
       if (!this.isValidated) return;
@@ -73,14 +70,14 @@ export default {
         method: "PUT"
       })
         .then(this.routeToMain)
-        .catch(this.networkError);
+        .catch(this.setError);
     },
     deleteUser() {
       loader(this.userUrl, {
         method: "DELETE"
       })
         .then(this.routeToMain)
-        .catch(this.networkError);
+        .catch(this.setError);
     },
     changeUser(id) {
       this.$router.push({ ...this.$route, params: { id } });
@@ -90,6 +87,14 @@ export default {
     },
     nextUser() {
       this.changeUser(this.userId + 1);
+    },
+    changeUserHandler() {
+      this.user = null;
+      loader(this.userUrl)
+        .then(data => {
+          this.user = data;
+        })
+        .catch(err => alert(err.message));
     }
   }
 };

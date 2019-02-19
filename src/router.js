@@ -13,27 +13,27 @@ const router = new Router({
     {
       path: "/",
       name: "IndexPage",
-      component: () => import("./views/IndexPage.vue")
+      component: () => import("@/views/IndexPage.vue")
     },
     {
       path: "/edit/:id",
       name: "EditUser",
-      component: () => import("./views/EditUserPage.vue")
+      component: () => import("@/views/EditUserPage.vue")
     },
     {
       path: "/add",
       name: "AddUser",
-      component: () => import("./views/AddUserPage.vue")
+      component: () => import("@/views/AddUserPage.vue")
     },
     {
       path: "/phonebook",
       name: "Phonebook",
-      component: () => import("./views/Phonebook.vue")
+      component: () => import("@/views/Phonebook.vue")
     }
   ]
 });
 
-router.beforeResolve((to, from, next) => {
+router.beforeEach((to, from, next) => {
   if (to.path) {
     NProgress.start();
   }

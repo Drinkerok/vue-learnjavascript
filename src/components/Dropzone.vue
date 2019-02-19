@@ -25,12 +25,18 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    dropzone: null
+  }),
   mounted() {
     this.initDropzone();
   },
+  beforeDestroy() {
+    this.dropzone.destroy();
+  },
   methods: {
     initDropzone() {
-      new Dropzone(this.$refs.dropzoneEl, {
+      this.dropzone = new Dropzone(this.$refs.dropzoneEl, {
         url: "https://api.imgur.com/3/image",
         paramName: "img",
         acceptedFiles: "image/*",

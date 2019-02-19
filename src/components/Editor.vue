@@ -1,5 +1,5 @@
 <template>
-  <vue-editor v-model="val" />
+  <vue-editor :value="about" @input="valueChanged($event)" />
 </template>
 
 <script>
@@ -19,23 +19,9 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    val: ""
-  }),
-  watch: {
-    about() {
-      if (this.about !== this.val) this.createLoacalValue();
-    },
-    val() {
-      this.$emit("input", this.val);
-    }
-  },
-  created() {
-    this.createLoacalValue();
-  },
   methods: {
-    createLoacalValue() {
-      this.val = this.about;
+    valueChanged(value) {
+      this.$emit("input", value);
     }
   }
 };
