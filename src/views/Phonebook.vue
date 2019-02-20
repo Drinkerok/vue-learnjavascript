@@ -20,28 +20,18 @@
 </template>
 
 <script>
-import loader from "@/utils/backend.js";
-import { API } from "@/utils/constants.js";
-
 export default {
   name: "Phonebook",
   components: {
     UserTable: () => import("@/components/UserTable.vue")
   },
-  data: () => ({
-    users: []
-  }),
-  mounted() {
-    this.loadUsers();
-  },
-  methods: {
-    loadUsers() {
-      loader(API.users)
-        .then(data => {
-          this.users = data;
-        })
-        .catch(err => alert(err.message));
+  computed: {
+    users() {
+      return this.$store.state.users;
     }
+  },
+  mounted() {
+    this.$store.dispatch("loadUsers");
   }
 };
 </script>
