@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div id="app">
+      <User />
       <history></history>
       <nav class="navigation">
         <ul class="navigation__list">
@@ -26,7 +27,13 @@
 export default {
   name: "App",
   components: {
-    history: () => import("@/components/HistoryNav.vue")
+    history: () => import("@/components/HistoryNav.vue"),
+    User: () => import("@/components/User.vue")
+  },
+  computed: {
+    userName() {
+      return this.$store.state.userName;
+    }
   }
 };
 </script>

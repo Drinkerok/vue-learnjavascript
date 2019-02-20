@@ -8,7 +8,7 @@
     </div>
     <p v-if="error">{{ error }}</p>
     <p v-else-if="!user">Loading...</p>
-    <form v-else @submit.prevent="editUserToDB">
+    <form v-else @submit.prevent="editUser">
       <UserForm v-model="user" />
       <div class="form-group">
         <button type="submit">Сохранить</button>
@@ -19,9 +19,6 @@
 </template>
 
 <script>
-import loader from "@/utils/backend.js";
-import { API } from "@/utils/constants.js";
-
 export default {
   name: "EditUser",
   components: {
@@ -35,9 +32,6 @@ export default {
   computed: {
     userId() {
       return +this.$route.params.id;
-    },
-    userUrl() {
-      return `${API.users}/${this.userId}`;
     }
   },
   watch: {
@@ -46,38 +40,25 @@ export default {
     }
   },
   mounted() {
-    this.loadUser();
+    this.getUser();
   },
   methods: {
-    loadUser() {
-      loader(this.userUrl)
-        .then(data => {
-          this.user = data;
+    getUser() {
+      this.user = this.$store.getters.getUserById(this.userId);
+    },
+    editUser() {
+      this.$store
+        .dispatch({
+          type: "editUser",
+          user: { ...this.user }
         })
-        .catch(this.setError);
-    },
-    routeToMain() {
-      this.$router.push({ path: "/" });
-    },
-    setError(err) {
-      this.error = err.message;
-    },
-    editUserToDB() {
-      if (!this.isValidated) return;
-
-      loader(this.userUrl, {
-        data: this.user,
-        method: "PUT"
-      })
-        .then(this.routeToMain)
-        .catch(this.setError);
+        .then(() => this.$router.push({ path: "/" }));
     },
     deleteUser() {
-      loader(this.userUrl, {
-        method: "DELETE"
-      })
-        .then(this.routeToMain)
-        .catch(this.setError);
+      this.$store.dispatch({
+        type: "deleteUser",
+        id: this.userId
+      });
     },
     changeUser(id) {
       this.$router.push({ ...this.$route, params: { id } });
@@ -90,11 +71,7 @@ export default {
     },
     changeUserHandler() {
       this.user = null;
-      loader(this.userUrl)
-        .then(data => {
-          this.user = data;
-        })
-        .catch(err => alert(err.message));
+      this.getUser();
     }
   }
 };

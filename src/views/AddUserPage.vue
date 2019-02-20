@@ -2,15 +2,12 @@
   <div>
     <UserForm v-model="user" />
     <div class="form-group">
-      <button type="button" @click="addUserToDB">Добавить</button>
+      <button type="button" @click="addUser">Добавить</button>
     </div>
   </div>
 </template>
 
 <script>
-import loader from "@/utils/backend.js";
-import { API } from "@/utils/constants.js";
-
 const DEFAULT_USER = {
   id: null,
   avatar: "",
@@ -34,13 +31,13 @@ export default {
     user: { ...DEFAULT_USER }
   }),
   methods: {
-    addUserToDB() {
-      loader(API.users, {
-        data: this.user,
-        method: "POST"
-      })
-        .then(() => this.$router.push({ path: "/" }))
-        .catch(err => alert(err.message));
+    addUser() {
+      this.$store
+        .dispatch({
+          type: "addUser",
+          user: { ...this.user }
+        })
+        .then(() => this.$router.push({ path: "/" }));
     }
   }
 };

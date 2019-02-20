@@ -7,7 +7,7 @@
       "picture": "http://placehold.it/128x128",
       "age": 34,
       "accessLevel": "user",
-      "firstName": "123",
+      "firstName": "qwe",
       "lastName": "Lowe",
       "company": "ZENSUS",
       "email": "millie.lowe@zensus.tv",
@@ -351,22 +351,6 @@
       "address": "810 Gilmore Court, Bainbridge, Georgia, 4865",
       "about": "Ad velit occaecat irure pariatur in. Consequat sunt excepteur voluptate non aliqua eiusmod non voluptate magna occaecat. Laborum quis duis duis sint ex excepteur in. Laborum consequat cillum consectetur reprehenderit nostrud nostrud do minim qui. Occaecat do pariatur ipsum occaecat adipisicing ex irure dolor non consequat et nulla consectetur. Est labore tempor eiusmod consectetur. Labore dolore id sint laborum consequat minim proident nostrud enim commodo duis nulla tempor ullamco.",
       "registered": "09.05.2015"
-    },
-    {
-      "id": 24,
-      "isActive": true,
-      "balance": "$2,524.55",
-      "picture": "http://placehold.it/128x128",
-      "age": 37,
-      "accessLevel": "admin",
-      "firstName": "Mcdowell",
-      "lastName": "Huber",
-      "company": "ELITA",
-      "email": "mcdowell.huber@elita.tv",
-      "phone": "+7 (897) 474-3213",
-      "address": "254 Turnbull Avenue, Cedarville, New Jersey, 2756",
-      "about": "Nostrud et labore eu adipisicing. Veniam eiusmod Lorem in Lorem et. Laboris cupidatat sunt ea eu dolore aliqua ullamco deserunt est. Nulla officia labore aute labore laboris voluptate veniam aliquip do.",
-      "registered": "05.05.2018"
     }
   ]
 }
