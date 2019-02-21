@@ -6,6 +6,7 @@ import { API } from "@/utils/constants.js";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
+  strict: true,
   state: {
     userName: "User",
     users: [],
@@ -22,6 +23,9 @@ const store = new Vuex.Store({
     },
     saveUsers(state, { users }) {
       state.users = [...users];
+    },
+    changeLoadedStatus(state, { status }) {
+      state.usersLoaded = status;
     }
   },
   actions: {
@@ -39,38 +43,47 @@ const store = new Vuex.Store({
         })
         .catch(err => alert(err.message));
     },
-    deleteUser({ state }, { id }) {
+    deleteUser({ state, commit }, { id }) {
       loader(`${API.users}/${id}`, {
         method: "DELETE"
       })
         .then(() => {
-          state.users = state.users.filter(user => user.id !== id);
+          commit({
+            type: "saveUsers",
+            users: state.users.filter(user => user.id !== id)
+          });
         })
         .catch(err => alert(err.message));
     },
-    addUser({ state, dispatch }, { user }) {
+    addUser({ commit, dispatch }, { user }) {
       loader(API.users, {
         data: user,
         method: "POST"
       })
         .then(() => {
-          state.usersLoaded = false;
+          commit({
+            type: "changeLoadedStatus",
+            status: false
+          });
           return dispatch("loadUsers");
         })
         .catch(err => alert(err.message));
     },
-    editUser({ state }, { user }) {
+    editUser({ state, commit }, { user }) {
       return loader(`${API.users}/${user.id}`, {
         data: user,
         method: "PUT"
       })
         .then(() => {
-          state.users = state.users.map(userInStore => {
-            if (userInStore.id !== user.id) {
-              return userInStore;
-            } else {
-              return { ...user };
-            }
+          commit({
+            type: "saveUsers",
+            users: state.users.map(userInStore => {
+              if (userInStore.id !== user.id) {
+                return userInStore;
+              } else {
+                return { ...user };
+              }
+            })
           });
         })
         .catch(err => alert(err.message));

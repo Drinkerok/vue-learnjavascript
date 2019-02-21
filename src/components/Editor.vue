@@ -1,5 +1,5 @@
 <template>
-  <vue-editor :value="about" @input="valueChanged($event)" />
+  <vue-editor :value="about" @input="valueChanged" />
 </template>
 
 <script>

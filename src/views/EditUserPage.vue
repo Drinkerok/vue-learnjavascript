@@ -25,27 +25,23 @@ export default {
     UserForm: () => import("@/components/UserForm.vue")
   },
   data: () => ({
-    user: null,
     error: null,
     isValidated: true
   }),
   computed: {
     userId() {
       return +this.$route.params.id;
+    },
+    user: {
+      get() {
+        return this.$store.getters.getUserById(this.userId);
+      },
+      set(newUser) {
+        return newUser;
+      }
     }
-  },
-  watch: {
-    $route() {
-      this.changeUserHandler();
-    }
-  },
-  mounted() {
-    this.getUser();
   },
   methods: {
-    getUser() {
-      this.user = this.$store.getters.getUserById(this.userId);
-    },
     editUser() {
       this.$store
         .dispatch({
@@ -68,10 +64,6 @@ export default {
     },
     nextUser() {
       this.changeUser(this.userId + 1);
-    },
-    changeUserHandler() {
-      this.user = null;
-      this.getUser();
     }
   }
 };

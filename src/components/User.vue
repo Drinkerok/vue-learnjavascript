@@ -5,7 +5,7 @@
       type="text"
       class="user__input"
       :value="userName"
-      @input="changeName($event.target.value)"
+      @input="userName = $event.target.value"
     />
   </div>
 </template>
@@ -14,16 +14,16 @@
 export default {
   name: "User",
   computed: {
-    userName() {
-      return this.$store.state.userName;
-    }
-  },
-  methods: {
-    changeName(name) {
-      this.$store.commit({
-        type: "changeName",
-        name
-      });
+    userName: {
+      get() {
+        return this.$store.state.userName;
+      },
+      set(name) {
+        this.$store.commit({
+          type: "changeName",
+          name
+        });
+      }
     }
   }
 };

@@ -6,7 +6,7 @@
         v-bind="$attrs"
         type="checkbox"
         class="checkbox__input"
-        @input="changeHandler($event.target.value)"
+        @input="changeHandler($event.target.checked)"
       />
       <span class="checkbox__text">{{ text }}</span>
     </label>
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     changeHandler(value) {
-      this.$emit("input", !!value);
+      this.$emit("input", value);
     }
   }
 };
