@@ -48,8 +48,7 @@ export default {
     editUser() {
       this.$validator.validateAll();
       if (this.errors.any()) {
-        // eslint-disable-next-line
-        alert('Не все поля заполнены!')
+        alert("Не все поля заполнены!");
         return;
       }
 
