@@ -38,23 +38,26 @@ export default {
     initDropzone() {
       this.dropzone = new Dropzone(this.$refs.dropzoneEl, {
         url: "https://api.imgur.com/3/image",
-        paramName: "img",
+        paramName: "image",
         acceptedFiles: "image/*",
         method: "post",
         headers: {
           "Cache-Control": null,
           "X-Requested-With": null,
-          Authorization: "Client-ID 69216b6b3f6dc70"
+          Authorization: "Client-ID 7977bd0c84b4d67"
         },
         createImageThumbnails: false,
         previewTemplate: "<div style='display:none'></div>",
         success: (file, response) => {
-          console.log(response);
+          this.changeAvatar(response.data.link);
         },
         error: err => {
           console.log(err);
         }
       });
+    },
+    changeAvatar(src) {
+      this.$emit("input", src);
     }
   }
 };

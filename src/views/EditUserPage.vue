@@ -6,7 +6,7 @@
       </button>
       <button type="button" @click="nextUser">Следующий пользователь</button>
     </div>
-    <p v-if="error">{{ error }}</p>
+    <p v-if="error">Ошибочка</p>
     <p v-else-if="!user">Loading...</p>
     <form v-else @submit.prevent="editUser">
       <UserForm v-model="user" />
@@ -25,24 +25,34 @@ export default {
     UserForm: () => import("@/components/UserForm.vue")
   },
   data: () => ({
+    user: null,
     error: null,
     isValidated: true
   }),
   computed: {
     userId() {
       return +this.$route.params.id;
-    },
-    user: {
-      get() {
-        return this.$store.getters.getUserById(this.userId);
-      },
-      set(newUser) {
-        return newUser;
-      }
     }
   },
+  watch: {
+    $route: "changeUserHandler"
+  },
+  mounted() {
+    this.getUser();
+  },
   methods: {
+    getUser() {
+      this.user = this.$store.getters.getUserById(this.userId);
+      this.error = !this.user;
+    },
     editUser() {
+      this.$validator.validateAll();
+      if (this.errors.any()) {
+        // eslint-disable-next-line
+        alert('Не все поля заполнены!')
+        return;
+      }
+
       this.$store
         .dispatch({
           type: "editUser",
@@ -64,6 +74,10 @@ export default {
     },
     nextUser() {
       this.changeUser(this.userId + 1);
+    },
+    changeUserHandler() {
+      this.user = null;
+      this.getUser();
     }
   }
 };
