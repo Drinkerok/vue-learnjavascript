@@ -1,12 +1,7 @@
 <template>
   <div class="user">
     <p class="user__text">Вас зовут:</p>
-    <input
-      type="text"
-      class="user__input"
-      :value="userName"
-      @input="userName = $event.target.value"
-    />
+    <input v-model="userName" type="text" class="user__input" />
   </div>
 </template>
 

@@ -35,13 +35,14 @@ export default {
     }
   },
   watch: {
-    $route: "changeUserHandler"
+    $route: "getUser"
   },
   mounted() {
     this.getUser();
   },
   methods: {
     getUser() {
+      this.user = null;
       this.user = this.$store.getters.getUserById(this.userId);
       this.error = !this.user;
     },
@@ -73,10 +74,6 @@ export default {
     },
     nextUser() {
       this.changeUser(this.userId + 1);
-    },
-    changeUserHandler() {
-      this.user = null;
-      this.getUser();
     }
   }
 };
